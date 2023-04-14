@@ -1,35 +1,24 @@
 package com.eightyFive.eCommerceBackend.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import org.springframework.data.annotation.Id;
 import lombok.*;
 
 
 @Data
-@RequiredArgsConstructor
-@ToString
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @NonNull
+    protected String username;
 
     @NonNull
-    private String username;
+    protected String password;
 
     @NonNull
-    private String password;
+    protected String email;
 
-    @NonNull
-    private String firstName;
+    User(){}
 
-    @NonNull
-    private String lastName;
-
-    @NonNull
-    private String email;
-
-    @NonNull
-    private String address;
+    User(String username, String password, String email){
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
 }
-
