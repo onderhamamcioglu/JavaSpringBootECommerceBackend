@@ -2,6 +2,6 @@ package com.eightyFive.eCommerceBackend.model;
 
 public enum Role {
 
-    CUSTOMER,
+    USER,
     ADMIN
 }

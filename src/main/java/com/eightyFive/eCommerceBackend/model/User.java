@@ -1,7 +1,6 @@
 package com.eightyFive.eCommerceBackend.model;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,26 +11,29 @@ import java.util.List;
 
 @ToString
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+//@Table(name = "_user")
 public class User implements UserDetails {
-    @NonNull
-    protected String username;
 
-    @NonNull
-    protected String password;
+    @Id
+    @GeneratedValue
+    private Integer id;
 
-    @NonNull
-    protected String email;
+    private String name;
+
+    private String lastname;
+
+    private String username;
+
+    private String password;
+
+    private String email;
 
     @Enumerated(EnumType.STRING)
-    @NonNull
-    protected Role role;
-
-    User(String username, String password, String email){
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.role = Role.CUSTOMER;
-    }
+    private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
