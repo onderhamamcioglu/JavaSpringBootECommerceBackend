@@ -1,6 +1,6 @@
 package com.eightyFive.eCommerceBackend.service;
 
-import com.eightyFive.eCommerceBackend.configuration.UserConfiguration;
+import com.eightyFive.eCommerceBackend.model.Role;
 import com.eightyFive.eCommerceBackend.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,21 +16,12 @@ import java.util.List;
 public class UserService implements UserDetailsService {
     private List<User> users = new ArrayList<>();
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private final UserConfiguration userConfiguration;
-
-    public UserService(UserConfiguration userConfiguration) {
-        this.userConfiguration = userConfiguration;
-    }
-
-    public User createUser(User user){
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public User createUser(User user){ //TODO Implement repository, DB etc.
+        if(getUserByUsername(user.getUsername()) != null){
+            return null;
+        }
+        user.setRole(Role.USER);
         users.add(user);
-        userConfiguration.increaseCounter();
-        System.out.println(userConfiguration.counter);
         return user;
     }
 
