@@ -23,7 +23,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
-    //private final TokenRepository tokenRepository;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
@@ -31,15 +30,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain)
             throws ServletException, IOException {
 
-        final String authenticationHeader = request.getHeader("Authentication");
+        final String authorizationHeader = request.getHeader("Authorization");
         final String jwt;
         final String username;
 
-        if(authenticationHeader == null || !authenticationHeader.startsWith("Bearer ")){
+        if(authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")){
             filterChain.doFilter(request,response);
             return;
         }
-        jwt = authenticationHeader.substring(7); // "Bearer " 7 chars
+        jwt = authorizationHeader.substring(7); // "Bearer " 7 chars
         username = jwtService.extractUsername(jwt);
 
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
