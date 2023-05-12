@@ -25,12 +25,12 @@ public class User implements UserDetails {
 
     private String lastname;
 
-    @Column(unique=true)
+    @Column(unique = true)
     private String username;
 
     private String password;
 
-    @Column(unique=true)
+    @Column(unique = true)
     private String email;
 
     private String address;

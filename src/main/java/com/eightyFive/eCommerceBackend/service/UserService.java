@@ -22,8 +22,8 @@ public class UserService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public User createUser(User user){
-        if(!userRepository.findByEmail(user.getEmail()).isEmpty()){
+    public User createUser(User user) {
+        if (!userRepository.findByEmail(user.getEmail()).isEmpty()) {
             return null;
         }
         user.setRole(Role.USER);

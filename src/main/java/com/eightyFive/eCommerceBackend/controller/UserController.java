@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,7 +26,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User user) {
-        if (userService.createUser(user) == null){
+        if (userService.createUser(user) == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exits!");
         }
         return ResponseEntity.status(HttpStatus.OK).body(jwtService.generateToken(user));
@@ -35,19 +34,8 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody User user) {
-        /*
-        System.out.println(user.toString());
-        if (userService.getUserByUsername(user.getUsername()) != null) {
-            return ResponseEntity.status(HttpStatus.OK).body("User logged in!");
-        } else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Credentials Wrong!");
-        }
-         */
-
-        System.out.println(user.toString());
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword()));
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         return ResponseEntity.status(HttpStatus.OK).body(jwtService.generateToken(user));
     }
-
 
 }
