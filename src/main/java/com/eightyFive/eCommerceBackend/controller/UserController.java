@@ -21,23 +21,19 @@ public class UserController {
     private final UserService userService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private final JwtService jwtService;
 
     private final AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         if (userService.createUser(user) == null){
             return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exits!");
         }
         return ResponseEntity.status(HttpStatus.OK).body(jwtService.generateToken(user));
     }
 
-    @PostMapping("/login") //TODO DUMMY LOGIN METHOD
+    @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody User user) {
         /*
         System.out.println(user.toString());
@@ -48,20 +44,10 @@ public class UserController {
         }
          */
 
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword()));
-        if(userService.getUserByUsername(user.getUsername()) == null){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Credentials Wrong!");
-        } //TODO Swtich this to var user = repository.findByEmail(request.getEmail()).orElseThrow();
+        System.out.println(user.toString());
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword()));
         return ResponseEntity.status(HttpStatus.OK).body(jwtService.generateToken(user));
     }
 
-    @GetMapping("/{username}")
-    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
-        User user = userService.getUserByUsername(username);
-        if (user != null) {
-            return ResponseEntity.ok(user);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+
 }

@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: springuser
+      POSTGRES_PASSWORD: springpassword
+      POSTGRES_DB: springdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - volume:/var/lib/postgresql/data
+volumes:
+  volume:
